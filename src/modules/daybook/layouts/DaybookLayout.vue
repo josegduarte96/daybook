@@ -22,7 +22,7 @@
 <script>
 import NavBar from '../components/NavBar.vue'
 import EntryList from '../components/EntryList.vue'
-import {mapActions, mapState} from 'vuex'
+import {mapActions, mapGetters, mapState} from 'vuex'
 import useAuth from '../../auth/composables/useAuth'
 
 export default {
@@ -34,10 +34,11 @@ export default {
        ...mapActions('journal', ['loadEntries']),
     },
     created(){
-        this.loadEntries()
+        this.loadEntries(this.username)
     },
     computed:{
         ...mapState('journal', ['isLoading']),
+        ...mapGetters('auth', ['username'])
     },
     beforeUnmount(){
         const { logout } = useAuth()

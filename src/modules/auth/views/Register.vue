@@ -56,7 +56,19 @@ setup(){
 			const {ok, message} = await createUser(useForm.value)
 			
 			if (!ok) Swal.fire('Error', message, 'error')
-			else router.push({ name: 'daybook'})
+			// else router.push({ name: 'daybook'})
+			else {
+				const { isConfirmed } = await new Swal({
+					icon: "success",
+					title: "Tu cuenta se creo con exito!",
+					text: "Pulsa continuar para acceder a tu cuenta",
+					confirmButtonText: "Continuar"
+				})
+
+				if (isConfirmed) {
+					router.push({ name: 'daybook'})
+				}
+			}
 		}
 	}
 }

@@ -4,7 +4,7 @@
 import journalApi from '@/api/journalApi'
 
 
-export const loadEntries = async ({commit}) => {
+export const loadEntries = async ({commit}, username) => {
     const {data} = await journalApi.get('/entries.json')
     if(!data){
        return commit('setEntries', [])
@@ -12,11 +12,14 @@ export const loadEntries = async ({commit}) => {
     
     const entries = []
     for(let id of Object.keys(data)){
-        entries.push({
-            id,
-            ...data[id]
-        })
+        if (data[id].username === username){
+            entries.push({
+                id,
+                ...data[id]
+            })
+        }
     }
+
    
     commit('setEntries', entries)
 }

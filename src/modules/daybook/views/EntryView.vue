@@ -56,7 +56,8 @@ export default {
     return {
       entrie: null,
       localImage: null,
-      file: null
+      file: null,
+      user: null
 
     };
   },
@@ -75,11 +76,12 @@ export default {
       let entry;
       if (this.id === "new") {
         entry = {
+          username: this.username,
           text: "",
           date: new Date().getTime(),
         };
       } else {
-        entry = this.getEntryById(this.id);
+        entry = this.getEntryById(this.id, this.username)
         if (!entry) return this.$router.push({ name: "no-entry" });
       }
 
@@ -150,6 +152,7 @@ export default {
   },
   computed: {
     ...mapGetters("journal", ["getEntryById"]),
+    ...mapGetters("auth", ["username"]),
     day() {
       const { day } = getDateMonthYear(this.entrie.date);
       return day;
@@ -161,7 +164,7 @@ export default {
     yearDay() {
       const { year } = getDateMonthYear(this.entrie.date);
       return year;
-    },
+    }
   },
   created() {
     this.loadEntry();
